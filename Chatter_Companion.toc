@@ -1,0 +1,11 @@
+## Interface: 30300
+## Title: |cFFD4AF37Project Jaina|r - |cFF00FFCCChatter Companion|r (Bots LLM)
+## Notes: Interfaz de gestión de rasgos, personalidades, tono y memoria narrativa para bots autónomos con IA (mod-llm-chatter).
+## Author: DarckRovert & Project Jaina Dev Team / mod-llm-chatter
+## Version: 1.1.0
+## DefaultState: enabled
+## SavedVariablesPerCharacter: ChatterDB
+
+Chatter.lua
+ChatterRoster.lua
+ChatterUI.lua

@@ -88,9 +88,20 @@ function Chatter:Decode(value)
         return ""
     end
 
-    return (value:gsub("%%(%x%x)", function(hex)
-        return string.char(tonumber(hex, 16))
-    end))
+    local out, i, len = {}, 1, #value
+    while i <= len do
+        local c = value:sub(i, i)
+        local hex = value:sub(i + 1, i + 2)
+        local escape = (c == "%") or (c == "~" and (hex:sub(1, 1) == "F" or hex:sub(1, 1) == "f"))
+        if escape and hex:match("^%x%x$") then
+            table.insert(out, string.char(tonumber(hex, 16)))
+            i = i + 3
+        else
+            table.insert(out, c)
+            i = i + 1
+        end
+    end
+    return table.concat(out)
 end
 
 function Chatter:GetActivePanel()
@@ -837,8 +848,12 @@ function Chatter:Toggle()
         return
     end
 
+    if InterfaceOptionsFrame then InterfaceOptionsFrame:Hide() end
+    if GameMenuFrame then GameMenuFrame:Hide() end
     self.frame:Show()
     self.frame:Raise()
+    self:UpdateSaveButton()
+    self:ShowOptionsEditor()
     self:RequestRoster()
 end
 
@@ -1114,9 +1129,9 @@ local function chatterSystemFilter(_, _, message, ...)
 end
 
 StaticPopupDialogs["CHATTER_CONFIRM_SAVE_TRAITS"] = {
-    text = "These traits are different from the saved ones. Saving will regenerate this bot's tone and background story. Continue?",
-    button1 = "Save",
-    button2 = "Cancel",
+    text = "|cFFD4AF37Project Jaina - Chatter|r\n\nEstos rasgos difieren de los guardados en el servidor. Guardar regenerará el tono conversacional y la historia de trasfondo de este bot con la IA.\n\n¿Deseas continuar?",
+    button1 = "Guardar",
+    button2 = "Cancelar",
     OnAccept = function()
         Chatter:DoSaveProfile()
     end,
@@ -1128,6 +1143,8 @@ StaticPopupDialogs["CHATTER_CONFIRM_SAVE_TRAITS"] = {
 
 SLASH_CHATTER1 = "/chatter"
 SLASH_CHATTER2 = "/llmc"
+SLASH_CHATTER3 = "/botchat"
+SLASH_CHATTER4 = "/bots"
 SlashCmdList["CHATTER"] = function()
     Chatter:Toggle()
 end

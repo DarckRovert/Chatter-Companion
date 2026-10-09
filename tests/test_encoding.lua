@@ -107,6 +107,22 @@ tests["the server decodes everything the addon sends"] = function()
     end
 end
 
+tests["the addon decodes everything it encodes (symmetric round trip)"] = function()
+    local C = stub.load(ROOT)
+    local samples = {
+        "plain words",
+        CYRILLIC .. " " .. CYRILLIC,
+        EMOJI .. EMOJI .. " mixed " .. CYRILLIC,
+        "100% ~sure~ %F0 %t",
+        "\226\130\172 euro and \228\184\173 CJK",
+        "~F0",
+    }
+    for _, text in ipairs(samples) do
+        local encoded = C:Encode(text)
+        checkEqual(C:Decode(encoded), text, "addon decode round trip")
+    end
+end
+
 tests["a maximum-length 4-byte backstory splits cleanly"] = function()
     local C = stub.load(ROOT)
     local text = string.rep(EMOJI, 1000)

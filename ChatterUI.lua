@@ -194,11 +194,11 @@ end
 function Chatter:BuildEditor(panel, section)
     local storyOnly = section == "stories"
     local title = createLabel(panel,
-        storyOnly and "Background Stories" or "Bot Traits", 16, -16)
+        storyOnly and "|cFFD4AF37Project Jaina|r - Historias de Trasfondo (IA)" or "|cFFD4AF37Project Jaina|r - Rasgos de Bots Autónomos (IA)", 16, -16)
     title:SetFontObject(GameFontNormalLarge)
     local hint = createLabel(panel,
-        storyOnly and "Select a bot to read or regenerate its story."
-        or "Click a name to edit. Check bots to forget their memories.", 16, -40)
+        storyOnly and "Selecciona un bot para leer o regenerar su biografía narrativa."
+        or "Selecciona un bot para editar sus rasgos. Marca bots para borrar su memoria.", 16, -40)
     hint:SetFontObject(GameFontHighlightSmall)
     hint:SetPoint("TOPRIGHT", panel, "TOPRIGHT", -16, -40)
     hint:SetHeight(28)
@@ -207,7 +207,7 @@ function Chatter:BuildEditor(panel, section)
     left:SetPoint("TOPLEFT", panel, "TOPLEFT", 16, -76)
     left:SetPoint("BOTTOMLEFT", panel, "BOTTOMLEFT", 16, 72)
     left:SetWidth(144)
-    createLabel(left, "Search known bots", 0, 0)
+    createLabel(left, "Buscar bot conocido", 0, 0)
     local search = createEditBox(left, 0, -18, 144, 24)
     search:SetMaxLetters(64)
     search:SetScript("OnEscapePressed", function(self) self:ClearFocus() end)
@@ -220,7 +220,7 @@ function Chatter:BuildEditor(panel, section)
     bar:SetPoint("TOPRIGHT", list, "TOPRIGHT", 0, 0)
     bar:SetPoint("BOTTOMRIGHT", list, "BOTTOMRIGHT", 0, 0)
     local rows = {}
-    local empty = createLabel(list, "No known bots", 2, -6)
+    local empty = createLabel(list, "Sin bots registrados", 2, -6)
     empty:SetFontObject(GameFontHighlightSmall)
     empty:SetWidth(124)
     local count = createLabel(left, "", 0, 0)
@@ -228,7 +228,7 @@ function Chatter:BuildEditor(panel, section)
     count:SetPoint("BOTTOMLEFT", left, "BOTTOMLEFT", 0, 36)
     count:SetWidth(144)
     count:SetFontObject(GameFontHighlightSmall)
-    local all = button(left, "Check all", 82, function()
+    local all = button(left, "Marcar todos", 82, function()
         if Chatter.forgetQueue then return end
         for _, bot in ipairs(Chatter:GetFilteredRoster(search:GetText())) do
             Chatter.checkedBots[bot.guid] = true
@@ -236,7 +236,7 @@ function Chatter:BuildEditor(panel, section)
         Chatter:UpdateRosterViews()
     end)
     all:SetPoint("BOTTOMLEFT", left, "BOTTOMLEFT", 0, 6)
-    local clear = button(left, "Clear", 58, function()
+    local clear = button(left, "Limpiar", 58, function()
         if Chatter.forgetQueue then return end
         Chatter.checkedBots = {}
         Chatter:UpdateRosterViews()
@@ -249,11 +249,11 @@ function Chatter:BuildEditor(panel, section)
         count:SetPoint("BOTTOMLEFT", left, "BOTTOMLEFT", 0, 6)
     end
 
-    local refresh = button(panel, "Refresh", 80, function()
+    local refresh = button(panel, "Actualizar", 80, function()
         Chatter:RequestRoster()
     end)
     refresh:SetPoint("TOPRIGHT", panel, "TOPRIGHT", -16, -72)
-    local selected = createLabel(panel, "Select a bot", 172, -76)
+    local selected = createLabel(panel, "Selecciona un bot", 172, -76)
     selected:SetPoint("TOPRIGHT", refresh, "TOPLEFT", -8, -4)
     selected:SetHeight(16)
 
@@ -291,7 +291,7 @@ function Chatter:BuildEditor(panel, section)
     for i = 1, storyOnly and 0 or 3 do
         local key = "trait" .. i
         local y = -(i - 1) * 48
-        createLabel(content, "Trait " .. i, 0, y)
+        createLabel(content, "Rasgo de Personalidad " .. i, 0, y)
         local box = createEditBox(content, 0, y - 18, 200, 24)
         panel[key] = box
         box:SetMaxLetters(64)
@@ -316,17 +316,17 @@ function Chatter:BuildEditor(panel, section)
         end)
     end
     if not storyOnly then
-        createLabel(content, "Tone (generated)", 0, -148)
+        createLabel(content, "Tono Conversacional (Generado por IA)", 0, -148)
         panel.tone = createMultiLineEditBox(content, 0, -166, 200, 58)
         panel.tone:EnableMouse(false)
     end
     if section ~= "traits" then
         if not storyOnly then
-            createLabel(content, "Background Story", 0, -236)
+            createLabel(content, "Historia de Trasfondo (Narrativa IA)", 0, -236)
         end
         panel.backstory = createMultiLineEditBox(content, 0, -254, 200, 158)
         panel.backstory:EnableMouse(false)
-        panel.regenStoryBtn = button(content, "Regenerate Story", 136, function()
+        panel.regenStoryBtn = button(content, "Regenerar Historia", 150, function()
             Chatter:RegenBackstory()
         end)
         panel.regenStoryBtn:SetPoint("TOPLEFT", content, "TOPLEFT", 0, -424)
@@ -344,11 +344,11 @@ function Chatter:BuildEditor(panel, section)
         end
     end
 
-    panel.forgetBtn = button(panel, "Forget selected", 144, function()
+    panel.forgetBtn = button(panel, "Olvidar Marcados", 144, function()
         Chatter:ConfirmForget()
     end)
     panel.forgetBtn:SetPoint("BOTTOMLEFT", panel, "BOTTOMLEFT", 16, 44)
-    panel.saveBtn = button(panel, "Save Traits", 120, function()
+    panel.saveBtn = button(panel, "Guardar Rasgos", 130, function()
         Chatter:SaveProfile()
     end)
     panel.saveBtn:SetPoint("BOTTOMRIGHT", panel, "BOTTOMRIGHT", -16, 44)
@@ -430,13 +430,13 @@ function Chatter:BuildEditor(panel, section)
         local checked = 0
         for _ in pairs(Chatter.checkedBots) do checked = checked + 1 end
         count:SetText(#filtered .. "/" .. #Chatter.roster .. " bots | "
-            .. checked .. " checked")
+            .. checked .. " marcados")
         if storyOnly then
             count:SetText(#filtered .. "/" .. #Chatter.roster .. " bots")
         end
-        selected:SetText(Chatter:GetSelectedName() or "Select a bot")
+        selected:SetText(Chatter:GetSelectedName() or "Selecciona un bot")
         if #filtered == 0 then
-            empty:SetText(#Chatter.roster == 0 and "No known bots" or "No matches")
+            empty:SetText(#Chatter.roster == 0 and "Sin bots conocidos" or "Sin coincidencias")
             empty:Show()
         else
             empty:Hide()
@@ -501,6 +501,7 @@ function Chatter:BuildFrame()
     self:BuildEditor(frame)
     local close = CreateFrame("Button", nil, frame, "UIPanelCloseButton")
     close:SetPoint("TOPRIGHT", frame, "TOPRIGHT", -4, -4)
+    close:SetScript("OnClick", function() frame:Hide() end)
     table.insert(UISpecialFrames, "ChatterMainFrame")
     self:RestoreWindowPosition()
 end
@@ -518,25 +519,25 @@ end
 function Chatter:BuildOptionsPanel()
     if self.optionsPanel then return end
     local parent = CreateFrame("Frame", "ChatterOptionsPanel", UIParent)
-    parent.name = "Chatter"
+    parent.name = "Project Jaina Chatter"
     parent:Hide()
-    createLabel(parent, "Chatter", 16, -16):SetFontObject(GameFontNormalLarge)
+    createLabel(parent, "|cFFD4AF37Project Jaina|r - |cFF00FFCCChatter Companion (Bots LLM)|r", 16, -16):SetFontObject(GameFontNormalLarge)
     local text = createLabel(parent,
-        "Manage bot traits, generated stories and shared memories.\n\n"
-        .. "Bot Traits: edit traits, view tone and manage known bots.\n\n"
-        .. "Background Stories: read and regenerate a bot's story.\n\n"
-        .. "Use the full editor to see everything together.", 16, -48)
+        "Gestiona rasgos, personalidades, tono y trasfondos narrativos de los bots autónomos con IA (mod-llm-chatter).\n\n"
+        .. "|cFFD4AF37Rasgos de Bot:|r Configura personalidad, tono conversacional y lista de bots.\n\n"
+        .. "|cFFD4AF37Historias de Trasfondo:|r Lee y regenera la historia de vida del bot.\n\n"
+        .. "Haz clic en el botón inferior para abrir el gestor visual completo.", 16, -48)
     text:SetPoint("TOPRIGHT", parent, "TOPRIGHT", -16, -48)
     text:SetFontObject(GameFontHighlight)
-    parent.openEditorBtn = button(parent, "Open full editor", 160, function()
+    parent.openEditorBtn = button(parent, "Abrir Gestor de Bots", 180, function()
         Chatter:OpenFullEditor()
     end)
     parent.openEditorBtn:SetPoint("TOPLEFT", text, "BOTTOMLEFT", 0, -20)
     addCategory(parent)
     self.optionsPanel = parent
     local child = CreateFrame("Frame", "ChatterTraitsPanel", UIParent)
-    child.name = "Bot Traits"
-    child.parent = "Chatter"
+    child.name = "Rasgos de Bot"
+    child.parent = "Project Jaina Chatter"
     child:Hide()
     self.traitsPanel = child
     self:BuildEditor(child, "traits")
@@ -546,8 +547,8 @@ function Chatter:BuildOptionsPanel()
     end)
     addCategory(child)
     local stories = CreateFrame("Frame", "ChatterStoriesPanel", UIParent)
-    stories.name = "Background Stories"
-    stories.parent = "Chatter"
+    stories.name = "Historias de Fondo"
+    stories.parent = "Project Jaina Chatter"
     stories:Hide()
     self.storiesPanel = stories
     self:BuildEditor(stories, "stories")
