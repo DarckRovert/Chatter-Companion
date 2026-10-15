@@ -4,7 +4,7 @@
 
 # Chatter Companion
 
-Chatter is a World of Warcraft 3.3.5 addon that acts as a companion UI for the [`mod-llm-chatter`](https://github.com/Hokken/mod-llm-chatter) AzerothCore module.
+Chatter is a World of Warcraft 3.3.5 addon that acts as a companion UI for the [`mod-llm-chatter`](https://github.com/Hokken/mod-llm-chatter) JainaCore module.
 
 It lets the player manage persistent personality traits for bots they have grouped with before. The addon shows known bots, allows editing the three stored traits for a selected bot, and displays the tone that `mod-llm-chatter` generates from those traits.
 
@@ -21,12 +21,12 @@ It lets the player manage persistent personality traits for bots they have group
 
 ## Companion To mod-llm-chatter
 
-This addon is **not a standalone system**. It only works against an AzerothCore server that has [`mod-llm-chatter`](https://github.com/Hokken/mod-llm-chatter) installed and running (worldserver + Python bridge). On a vanilla server the addon will load but the roster will stay empty and saving traits will do nothing.
+This addon is **not a standalone system**. It only works against an JainaCore server that has [`mod-llm-chatter`](https://github.com/Hokken/mod-llm-chatter) installed and running (worldserver + Python bridge). On a vanilla server the addon will load but the roster will stay empty and saving traits will do nothing.
 
 ## Requirements
 
 - World of Warcraft 3.3.5a client
-- AzerothCore server with `mod-llm-chatter` installed and the Python bridge running
+- JainaCore server with `mod-llm-chatter` installed and the Python bridge running
 - The server build must accept chunked trait uploads — see below
 - You must have grouped with at least one bot before that bot appears in the roster
 
