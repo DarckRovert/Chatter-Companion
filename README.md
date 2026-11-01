@@ -1,4 +1,8 @@
 <p align="center">
+  <img src="https://raw.githubusercontent.com/DarckRovert/ProjectJaina_Web/main/images/project_jaina_official_logo.jpg" alt="Project JAIna Official Crest" width="180">
+</p>
+
+<p align="center">
   <img src="images/chatter.png" alt="Chatter Companion - Project Jaina" width="100%">
 </p>
 
