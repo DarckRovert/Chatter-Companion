@@ -1144,7 +1144,7 @@ StaticPopupDialogs["CHATTER_CONFIRM_SAVE_TRAITS"] = {
 SLASH_CHATTER1 = "/chatter"
 SLASH_CHATTER2 = "/llmc"
 SLASH_CHATTER3 = "/botchat"
-SLASH_CHATTER4 = "/bots"
+-- SLASH_CHATTER4 reservado exclusivamente para la barra táctica de escuadrones de bots en ProjectJaina_Companion
 SlashCmdList["CHATTER"] = function()
     Chatter:Toggle()
 end
